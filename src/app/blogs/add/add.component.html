@@ -1,0 +1,28 @@
+<div class="container">
+    <h1 class="mt-3 text-center fs-2">Add blog</h1>
+    <form enctype="multipart/form-data" [formGroup]="addBlogForm" (ngSubmit)="onAddSubmit()" class="form-container d-flex flex-column align-items-center">
+        <div class="row flex-row w-75">
+            <mat-label class="d-block">Title</mat-label>
+            <mat-form-field appearance="outline">
+                <input matInput formControlName="title">
+            </mat-form-field>
+        </div>
+
+        <div class="row flex-row w-75">
+            <mat-label class="d-block">Content</mat-label>
+            <mat-form-field appearance="outline">
+                <textarea matInput formControlName="content"></textarea>
+            </mat-form-field>
+        </div>
+
+        <div class="row flex-row w-75">
+            <mat-label class="d-block">Image</mat-label>
+            <img [src]="this.base64Image" class="rounded-circle w-25">
+            <input type="file" (change)="selectFiles($event)" formControlName="image">
+        </div>
+
+        <button mat-raised-button color="primary" type="submit">
+            Post
+        </button>
+    </form>    
+</div>
