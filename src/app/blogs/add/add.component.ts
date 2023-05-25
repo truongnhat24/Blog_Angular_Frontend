@@ -1,18 +1,30 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CoreService } from 'src/app/core/core.service';
 import { BlogsService } from 'src/app/services/blogs/blogs.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { GetInfoJwtService } from 'src/app/services/get-info-jwt.service';
+import { Editor, Toolbar } from 'ngx-editor';
 
 @Component({
   selector: 'app-add',
   templateUrl: './add.component.html',
   styleUrls: ['./add.component.scss']
 })
-export class AddComponent implements OnInit{
+export class AddComponent implements OnInit, OnDestroy{
+  editor!: Editor;
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['underline', 'strike'],
+    ['code', 'blockquote'],
+    ['ordered_list', 'bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['link', 'image'],
+    ['text_color', 'background_color'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
   addBlogForm: FormGroup;
   fileUs?: File;
   files: any;
@@ -42,6 +54,11 @@ export class AddComponent implements OnInit{
 
   ngOnInit(): void {
     this.addBlogForm.patchValue({})
+    this.editor = new Editor();
+  }
+
+  ngOnDestroy(): void {
+    this.editor.destroy();
   }
 
   selectFiles(event: any) {
@@ -64,9 +81,8 @@ export class AddComponent implements OnInit{
       formData.append('title', this.addBlogForm.value.title);
       formData.append('content', this.addBlogForm.value.content);
       formData.append('image', this.base64Image);
-      console.log(formData);
+      formData.append('user_id',this._getInfo.getAuth().id);
       //debugger
-      //this.addBlogForm.value.user_id = this._getInfo.getAuth().id;
       this._blogsService.addBlog(formData).subscribe({
         next: (val: any) => {
           this._coreService.openSnackBar('Blog added successfully')

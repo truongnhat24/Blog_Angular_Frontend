@@ -1,0 +1,78 @@
+<section class="container pb-6">
+    <div class="my-6 py-6 px-10 border rounded-lg">
+        <div class=" grid grid-cols-12 border-b-2 border-gray-100 ">
+            <div class="grid col-span-3 p-5">
+                <img src="../../../assets/img/man-156584__340.webp" alt="" class="border rounded-full h-[200px] w-[200px]">
+            </div>
+            <div class="grid col-span-9">
+                <form enctype="multipart/form-data" class="form-container d-flex flex-column align-items-center justify-center" [formGroup]="addCommentForm" (ngSubmit)="onCommentSubmit()">
+                    <div class="row flex-row w-100 h-50">
+                        <mat-label class="d-block text-xl mb-2">Comment</mat-label>
+                        <mat-form-field appearance="outline" class="">
+                            <input matInput formControlName="content">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex justify-end w-100">
+                        <button mat-raised-button color="primary" type="submit" >
+                            Comment
+                        </button>
+                    </div> 
+                </form>
+            </div>
+        </div>
+        <div class="my-4 ">
+            <span class="text-xl">{{ datas?.length }} comments </span>
+        </div>
+        <div>
+            <div *ngFor="let cmt of datas">
+                <div class="grid grid-cols-12 gap-4 mb-8 border-b-2 pb-2">
+                    <div *ngIf="cmt.image != 'NULL'; else nullImage" class="grid col-span-2 place-self-center">
+                        <img src="{{API+cmt.image}}" alt="" class="rounded-full h-[100px] w-[100px]">
+                    </div>              
+                    <ng-template #nullImage>
+                        <div class="grid col-span-2 place-self-center">
+                            <img src="../../../assets/img/man-156584__340.webp" alt="" class="rounded-full h-[100px] w-[100px]">
+                        </div>
+                    </ng-template>
+
+                    <div class="grid col-span-10">
+                        <div class="border py-2 px-4 mb-3 rounded-md border-blue-700">
+                            <p>{{ cmt.content }}</p>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span>{{ cmt.created_at }}</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button mat-raised-button color="primary" (click)="showReplyForm = true">
+                                    reply
+                                </button>
+                                <div class="flex gap-2" *ngIf="check == cmt.user_id">
+                                    <button mat-raised-button color="accent">
+                                        edit
+                                    </button>
+                                    <button mat-raised-button color="warn" (click)="onDelSubmit(cmt.id)">
+                                        delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <form enctype="multipart/form-data" [formGroup]="replyForm" (ngSubmit)="submitReply()">
+                            <div class="row flex-row w-100 h-50">
+                                <mat-label class="d-block text-xl mb-2">Comment</mat-label>
+                                <mat-form-field appearance="outline" class="">
+                                    <input matInput formControlName="content">
+                                </mat-form-field>
+                            </div>
+                            <button type="submit">Reply</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

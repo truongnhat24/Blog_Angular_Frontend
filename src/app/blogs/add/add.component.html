@@ -8,14 +8,16 @@
             </mat-form-field>
         </div>
 
-        <div class="row flex-row w-75">
+        <div class="row flex-row w-75 mb-4">
             <mat-label class="d-block">Content</mat-label>
-            <mat-form-field appearance="outline">
-                <textarea matInput formControlName="content"></textarea>
-            </mat-form-field>
+                <!-- <textarea matInput formControlName="content"></textarea> -->
+            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar" class="border-blue-700">
+            </ngx-editor-menu>
+            <ngx-editor matInput [editor]="editor"  formControlName="content" class="">
+            </ngx-editor>
         </div>
 
-        <div class="row flex-row w-75">
+        <div class="row flex-row w-75 mt-6">
             <mat-label class="d-block">Image</mat-label>
             <img [src]="this.base64Image" class="rounded-circle w-25">
             <input type="file" (change)="selectFiles($event)" formControlName="image">

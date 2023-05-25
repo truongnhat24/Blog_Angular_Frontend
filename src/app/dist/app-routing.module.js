@@ -15,14 +15,22 @@ var blogs_component_1 = require("./blogs/blogs.component");
 var home_component_1 = require("./home/home.component");
 var add_component_1 = require("./blogs/add/add.component");
 var auth_guard_guard_1 = require("./auth-guard.guard");
+var view_component_1 = require("./blogs/view/view.component");
+var delete_component_1 = require("./blogs/delete/delete.component");
 var routes = [
     { path: '', component: home_component_1.HomeComponent },
     { path: 'login', component: login_component_1.LoginComponent },
     { path: 'register', component: register_component_1.RegisterComponent },
     { path: 'blogs',
         canActivate: [auth_guard_guard_1.AuthGuardGuard],
-        component: blogs_component_1.BlogsComponent },
-    { path: 'blogs/add', component: add_component_1.AddComponent }
+        children: [
+            { path: '', component: blogs_component_1.BlogsComponent },
+            { path: 'add', component: add_component_1.AddComponent },
+            { path: 'view/:id', component: view_component_1.ViewComponent },
+            //{ path: 'edit/:id', component: EditComponent },
+            { path: 'delete/:id', component: delete_component_1.DeleteComponent }
+        ]
+    }
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {

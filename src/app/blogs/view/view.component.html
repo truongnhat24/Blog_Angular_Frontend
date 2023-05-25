@@ -1,0 +1,14 @@
+<section class="container">
+    <div class="row">
+        <div class="mt-5">
+            <div class="d-flex justify-center mb-10">
+                <h1 class="">
+                    <span class="text-3xl font-bold">{{ data?.title }}</span>
+                </h1>
+            </div>
+            <div [innerHTML]="data?.content">                
+            </div>
+        </div>
+    </div>
+</section>
+<app-comments></app-comments>                             

@@ -30,6 +30,9 @@ var BlogsService = /** @class */ (function () {
     BlogsService.prototype.deleteBlog = function (id) {
         return this._http["delete"](this.APIurl + ("/posts/" + id));
     };
+    BlogsService.prototype.viewBlog = function (id) {
+        return this._http.get(this.APIurl + ("/posts/" + id));
+    };
     BlogsService = __decorate([
         core_1.Injectable({
             providedIn: 'root'

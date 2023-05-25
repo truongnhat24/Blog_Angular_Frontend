@@ -1,0 +1,17 @@
+mat-toolbar {
+  justify-content: space-between;
+}
+mat-toolbar .logo-group {
+  display: flex;
+}
+mat-toolbar .logo-group button:first-child {
+  margin-left: 16px;
+}
+mat-toolbar .button-group {
+  display: flex;
+  gap: 16px;
+}
+mat-toolbar .button-auth {
+  color: black;
+  background-color: white;
+}

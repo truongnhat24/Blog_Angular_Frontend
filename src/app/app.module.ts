@@ -8,7 +8,7 @@ import { RegisterComponent } from './register/register.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -16,7 +16,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -28,7 +28,14 @@ import { AddComponent } from './blogs/add/add.component';
 import { FormsModule } from '@angular/forms';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { AuthService } from './services/auth.service';
-
+import { JwtInterceptor } from './_helper/jwt.interceptor';
+import { ViewComponent } from './blogs/view/view.component';
+import { DeleteComponent } from './blogs/delete/delete.component';
+import { RouterModule } from '@angular/router';
+import { NgxEditorModule } from 'ngx-editor';
+import { CommentsComponent } from './blogs/comments/comments.component';
+import { ReplyComponent } from './blogs/comments/reply/reply.component';
+// import { CommentsModule } from './blogs/comments/comments.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +45,10 @@ import { AuthService } from './services/auth.service';
     HeaderComponent,
     HomeComponent,
     AddComponent,
+    ViewComponent,
+    DeleteComponent,
+    CommentsComponent,
+    ReplyComponent
   ],
   imports: [
     BrowserModule,
@@ -60,15 +71,24 @@ import { AuthService } from './services/auth.service';
     MatSortModule,
     MatSnackBarModule,
     FormsModule,
+    NgxEditorModule,
+    // CommentsModule,
+    //RouterModule
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     JwtHelperService,
     AuthService,
     {
       provide: MatDialogRef,
       useValue: {}
     },
+    { 
+      provide: MAT_DIALOG_DATA, 
+      useValue: {} 
+    },
+
   ],
   bootstrap: [AppComponent]
 })

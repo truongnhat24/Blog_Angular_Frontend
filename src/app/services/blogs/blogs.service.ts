@@ -33,4 +33,8 @@ export class BlogsService {
   deleteBlog(id:number): Observable<any> {
     return this._http.delete(this.APIurl + `/posts/${id}`)
   }
+
+  viewBlog(id: number): Observable<any> {
+    return this._http.get(this.APIurl + `/posts/${id}`);
+  }
 }

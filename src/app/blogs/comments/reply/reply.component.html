@@ -1,0 +1,9 @@
+<form enctype="multipart/form-data" [formGroup]="replyForm" (ngSubmit)="submitReply()">
+    <div class="row flex-row w-100 h-50">
+        <mat-label class="d-block text-xl mb-2">Comment</mat-label>
+        <mat-form-field appearance="outline" class="">
+            <input matInput formControlName="content">
+        </mat-form-field>
+    </div>
+    <button type="submit">Reply</button>
+</form>

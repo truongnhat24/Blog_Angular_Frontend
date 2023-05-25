@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.AddComponent = void 0;
 var core_1 = require("@angular/core");
+var ngx_editor_1 = require("ngx-editor");
 var AddComponent = /** @class */ (function () {
     function AddComponent(_fb, _blogsService, _coreService, _router, _getInfo, _http) {
         this._fb = _fb;
@@ -16,6 +17,16 @@ var AddComponent = /** @class */ (function () {
         this._router = _router;
         this._getInfo = _getInfo;
         this._http = _http;
+        this.toolbar = [
+            ['bold', 'italic'],
+            ['underline', 'strike'],
+            ['code', 'blockquote'],
+            ['ordered_list', 'bullet_list'],
+            [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+            ['link', 'image'],
+            ['text_color', 'background_color'],
+            ['align_left', 'align_center', 'align_right', 'align_justify'],
+        ];
         this.urllink = "assets/img/avatar.svg";
         this.base64Image = '';
         this.inputFile = false;
@@ -29,6 +40,10 @@ var AddComponent = /** @class */ (function () {
     }
     AddComponent.prototype.ngOnInit = function () {
         this.addBlogForm.patchValue({});
+        this.editor = new ngx_editor_1.Editor();
+    };
+    AddComponent.prototype.ngOnDestroy = function () {
+        this.editor.destroy();
     };
     AddComponent.prototype.selectFiles = function (event) {
         var _this = this;
@@ -51,9 +66,8 @@ var AddComponent = /** @class */ (function () {
             formData.append('title', this.addBlogForm.value.title);
             formData.append('content', this.addBlogForm.value.content);
             formData.append('image', this.base64Image);
-            console.log(formData);
+            formData.append('user_id', this._getInfo.getAuth().id);
             //debugger
-            //this.addBlogForm.value.user_id = this._getInfo.getAuth().id;
             this._blogsService.addBlog(formData).subscribe({
                 next: function (val) {
                     _this._coreService.openSnackBar('Blog added successfully');

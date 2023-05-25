@@ -1,6 +1,6 @@
 <section class="container">
     <div class="row my-5">
-        <a *ngFor="let post of data" class="col-4 px-3 py-4 text-decoration-none post-link">
+        <a *ngFor="let post of data" class="col-4 px-3 py-4 text-decoration-none post-link" [routerLink]="'blogs/view/' + post.id">
             <div class="d-flex flex-column align-items-between justify-content-between border mx-2 h-100 rounded-xl shadow-sm">
                 <div class="d-flex justify-content-center mt-3">
                     <img src="{{API+post.image}}" alt="" class="w-75">

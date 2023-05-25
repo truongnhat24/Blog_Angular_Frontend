@@ -37,6 +37,13 @@ var add_component_1 = require("./blogs/add/add.component");
 var forms_2 = require("@angular/forms");
 var angular_jwt_1 = require("@auth0/angular-jwt");
 var auth_service_1 = require("./services/auth.service");
+var jwt_interceptor_1 = require("./_helper/jwt.interceptor");
+var view_component_1 = require("./blogs/view/view.component");
+var delete_component_1 = require("./blogs/delete/delete.component");
+var ngx_editor_1 = require("ngx-editor");
+var comments_component_1 = require("./blogs/comments/comments.component");
+var reply_component_1 = require("./blogs/comments/reply/reply.component");
+// import { CommentsModule } from './blogs/comments/comments.module';
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -50,6 +57,10 @@ var AppModule = /** @class */ (function () {
                 header_component_1.HeaderComponent,
                 home_component_1.HomeComponent,
                 add_component_1.AddComponent,
+                view_component_1.ViewComponent,
+                delete_component_1.DeleteComponent,
+                comments_component_1.CommentsComponent,
+                reply_component_1.ReplyComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule,
@@ -72,13 +83,19 @@ var AppModule = /** @class */ (function () {
                 sort_1.MatSortModule,
                 snack_bar_1.MatSnackBarModule,
                 forms_2.FormsModule,
+                ngx_editor_1.NgxEditorModule,
             ],
             providers: [
                 { provide: angular_jwt_1.JWT_OPTIONS, useValue: angular_jwt_1.JWT_OPTIONS },
+                { provide: http_1.HTTP_INTERCEPTORS, useClass: jwt_interceptor_1.JwtInterceptor, multi: true },
                 angular_jwt_1.JwtHelperService,
                 auth_service_1.AuthService,
                 {
                     provide: dialog_1.MatDialogRef,
+                    useValue: {}
+                },
+                {
+                    provide: dialog_1.MAT_DIALOG_DATA,
                     useValue: {}
                 },
             ],

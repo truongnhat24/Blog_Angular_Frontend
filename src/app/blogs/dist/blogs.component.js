@@ -9,10 +9,13 @@ exports.__esModule = true;
 exports.BlogsComponent = void 0;
 var core_1 = require("@angular/core");
 var jwt_decode_1 = require("jwt-decode");
+var delete_component_1 = require("./delete/delete.component");
 var BlogsComponent = /** @class */ (function () {
-    function BlogsComponent(_blogsService, _coreService) {
+    function BlogsComponent(_blogsService, _dialog, _coreService, _router) {
         this._blogsService = _blogsService;
+        this._dialog = _dialog;
         this._coreService = _coreService;
+        this._router = _router;
         this.title = "Blogs";
         this.API = 'http://127.0.0.1:8000/';
         this.user_id = 0;
@@ -28,10 +31,20 @@ var BlogsComponent = /** @class */ (function () {
         this._blogsService.getBlogsList(this.user_id).subscribe({
             next: function (res) {
                 _this.data = res.data[0];
-                console.log(_this.data);
             },
             error: function (err) {
                 console.log(err);
+            }
+        });
+    };
+    BlogsComponent.prototype.openDelDialog = function (blogId) {
+        var _this = this;
+        var dialogRef = this._dialog.open(delete_component_1.DeleteComponent, {
+            data: { blogId: blogId }
+        });
+        dialogRef.afterClosed().subscribe(function (result) {
+            if (result) {
+                _this.getBlogsList();
             }
         });
     };
