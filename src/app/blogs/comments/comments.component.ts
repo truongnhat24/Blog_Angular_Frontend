@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ContentChild, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import jwt_decode from "jwt-decode";
+import { EMPTY } from 'rxjs';
 import { CoreService } from 'src/app/core/core.service';
 import { CommentsService } from 'src/app/services/comments/comments.service';
+import { LikeService } from 'src/app/services/likes/like.service';
 
 @Component({
   selector: 'app-comments',
@@ -11,28 +13,37 @@ import { CommentsService } from 'src/app/services/comments/comments.service';
   styleUrls: ['./comments.component.scss']
 })
 export class CommentsComponent implements OnInit{
+  @ViewChild('like_element') likeElement!: ElementRef;
   API = 'http://127.0.0.1:8000/';
   datas:any;
   blogId:number = 0;
   addCommentForm!: FormGroup;
   replyForm!: FormGroup;
+  editForm!: FormGroup;
   check:number = 0;
+  checkOn: boolean = false;
+  checkEditOn: boolean = false;
   showReplyForm: boolean = false;
+  showEditForm: boolean = false;
+  hisComment!: string;
   constructor(
     private _fb: FormBuilder,
     private _commentsService: CommentsService,
+    private _likeService: LikeService,
     private _coreService: CoreService,
     private _router: Router,
     private _route: ActivatedRoute,
   ) {
     this.addCommentForm = this._fb.group({
-      content: '',
-      post_id: '',
+      content : '',
+      post_id : '',
     }),
     this.replyForm = this._fb.group({
       content : "",
       post_id : "",
-      user_id : "",
+    }),
+    this.editForm = this._fb.group({
+      content : '',
     })
   }
 
@@ -46,8 +57,18 @@ export class CommentsComponent implements OnInit{
       this.blogId = params['id'];
     });
     this._commentsService.getCommentsList(this.blogId).subscribe((data:any) => {
-      this.datas = data;
-      console.log(this.datas);
+      this.datas = data.data[1];
+      this.datas.map((data:any) => {
+        data.likeOn = false;
+      })
+      var likeCheck:any = data.data[0] 
+      this.datas.map((data:any) => {
+        likeCheck.map((check:any) => {
+          if(check != EMPTY && data.user_id == check.user_id && data.id == check.type_id) {
+            data.likeOn = true
+          }
+        })
+      })
     });
   }
 
@@ -84,6 +105,76 @@ export class CommentsComponent implements OnInit{
       error: (err) => {
         console.log(err);
       }
+    })
+  }
+
+  showReplyFormClick(cmtId: number):void {
+    this.showReplyForm = !this.showReplyForm;
+    this.datas.map((data:any) => {
+      data.checkOn = (data.id == cmtId) ? ((this.showReplyForm == true) ? true : false) 
+                                        : (data.checkOn = false);
+      // if (data.id == cmtId){
+      //   data.checkOn = (this.showReplyForm == true) ? true : false;
+      // } else {
+      //   data.checkOn = false;
+      // }
+    })
+  }
+
+  showEditFormClick(cmtId: number, cmtCont: string):void {
+    this.showEditForm = !this.showEditForm;
+    this.hisComment = cmtCont;
+    this.datas.map((data:any) => {
+      data.checkEditOn = (data.id == cmtId) ? ((this.showEditForm == true) ? true : false) 
+                                        : (data.checkEditOn = false);
+    })
+  }
+
+  submitReply(cmtId: number){
+    if(this.replyForm.valid) {
+      const formData = new FormData();
+      formData.append('content', this.replyForm.value.content);
+      formData.append('post_id', this.blogId.toString());
+      formData.append('cmtParent', cmtId.toString());
+      this._commentsService.addComment(formData).subscribe({
+        next: (val: any) => {
+          this._coreService.openSnackBar('Comment reply added successfully');
+          this.loadComment();
+          this.showReplyForm = false;
+          this.replyForm.reset();
+        },
+        error: err => console.log(err)
+      })
+    }
+  }
+
+  submitEdit(cmtId: number){
+    if(this.editForm.valid) {
+      this._commentsService.updateComment(cmtId, this.editForm.value).subscribe({
+        next: (val: any) => {
+          this._coreService.openSnackBar('Comment edited successfully');
+          this.loadComment();
+          this.showEditForm = false;
+          this.editForm.reset();
+        },
+        error: err => console.log(err)
+      })
+    }
+  }
+
+  likeSubmit(cmtId:number, type:string, value:any){
+    var like = Number(value.children[1].innerHTML)
+    this._likeService.addLike(cmtId, type).subscribe({
+      next: () => {
+        if(value.firstChild.innerHTML == 'favorite') {
+          value.firstChild.innerHTML = "favorite_border";
+          value.children[1].innerHTML = like -1;
+        } else {
+          value.firstChild.innerHTML = "favorite";
+          value.children[1].innerHTML = like +1;
+        }
+      },
+      error: err => console.log(err)
     })
   }
 }

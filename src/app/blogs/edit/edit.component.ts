@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CoreService } from 'src/app/core/core.service';
 import { BlogsService } from 'src/app/services/blogs/blogs.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
@@ -9,11 +9,11 @@ import { GetInfoJwtService } from 'src/app/services/get-info-jwt.service';
 import { Editor, Toolbar } from 'ngx-editor';
 
 @Component({
-  selector: 'app-add',
-  templateUrl: './add.component.html',
-  styleUrls: ['./add.component.scss']
+  selector: 'app-edit',
+  templateUrl: './edit.component.html',
+  styleUrls: ['./edit.component.scss']
 })
-export class AddComponent implements OnInit, OnDestroy{
+export class EditComponent implements OnInit, OnDestroy {
   editor!: Editor;
   toolbar: Toolbar = [
     ['bold', 'italic'],
@@ -25,16 +25,17 @@ export class AddComponent implements OnInit, OnDestroy{
     ['text_color', 'background_color'],
     ['align_left', 'align_center', 'align_right', 'align_justify'],
   ];
-  addBlogForm: FormGroup;
+  editBlogForm: FormGroup;
   fileUs?: File;
   files: any;
   urllink:string = "assets/img/avatar.svg";
+  API = 'http://127.0.0.1:8000/';
   base64Image = '';
   inputFile = false;
   reader = new FileReader();
-  
+  data: any;
+  blogId: number = 0;
   selectedFile?: File;
-
 
   constructor(
     private _fb: FormBuilder,
@@ -43,17 +44,18 @@ export class AddComponent implements OnInit, OnDestroy{
     private _router: Router,
     private _getInfo: GetInfoJwtService,
     private _http: HttpClient,
+    private _route: ActivatedRoute
   ) {
-    this.addBlogForm = this._fb.group({
-      title: '',
-      content: '',
-      user_id: '',
-      image: ['']
+    this.editBlogForm = this._fb.group({
+      title: this.data?.title,
+      content: this.data?.content,
+      image: this.data?.image
     })
   }
 
   ngOnInit(): void {
-    this.addBlogForm.patchValue({})
+    this.getData();
+    this.editBlogForm.patchValue({})
     this.editor = new Editor();
   }
 
@@ -61,7 +63,16 @@ export class AddComponent implements OnInit, OnDestroy{
     this.editor.destroy();
   }
 
-  selectFiles(event: any) {
+  getData(): void {
+    this._route.params.subscribe(params => {
+      this.blogId = params['id'];
+    });
+    this._blogsService.viewBlog(this.blogId).subscribe((data:any) => {
+      this.data = data.data[0];
+    });
+  }
+
+  selectFiles(event: any, value: any) {
     this.inputFile = true;
     const file: File = event.target.files[0];
     this.files = event.target.files[0];
@@ -72,21 +83,19 @@ export class AddComponent implements OnInit, OnDestroy{
         this.base64Image = reader.result as string;
       };
     }
+    value.style.display = "none";
   }
-                           
-  onAddSubmit() {
-    if(this.addBlogForm.valid) {
-      //console.log(this.base64Image);
-      const formData = new FormData();
-      formData.append('title', this.addBlogForm.value.title);
-      formData.append('content', this.addBlogForm.value.content);
-      formData.append('image', this.base64Image);
-      formData.append('user_id',this._getInfo.getAuth().id);
-      console.log(formData);
-      //debugger
-      this._blogsService.addBlog(formData).subscribe({
+
+  onEditSubmit(id: number) {
+    if(this.editBlogForm.valid) {
+      if (this.editBlogForm.value.image == null){
+        delete this.editBlogForm.value.image
+      } else {
+        this.editBlogForm.value.image = this.base64Image;
+      }
+      this._blogsService.updateBlog(id, this.editBlogForm.value).subscribe({
         next: (val: any) => {
-          this._coreService.openSnackBar('Blog added successfully')
+          this._coreService.openSnackBar('Blog edited successfully')
           this._router.navigate(['blogs'])
         },
         error: err => console.log(err)
@@ -94,4 +103,3 @@ export class AddComponent implements OnInit, OnDestroy{
     }
   }
 }
-

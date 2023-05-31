@@ -24,7 +24,6 @@ var DeleteComponent = /** @class */ (function () {
     }
     DeleteComponent.prototype.ngOnInit = function () {
         this.blogId = this.data.blogId;
-        console.log(this.blogId);
     };
     DeleteComponent.prototype.deleteBlog = function () {
         var _this = this;

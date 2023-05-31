@@ -1,26 +1,29 @@
 <mat-toolbar color="primary">
-    <div class="logo-group">
-      <span class="blogangular">Blog Angular</span>
-      <nav>
-        <button mat-flat-button color="primary" [routerLink]="['']">
-          Home
-        </button>
-        <button mat-flat-button color="primary" routerLink="/blogs">
-          Blog
-        </button>
-      </nav>
+  <div class="logo-group">
+    <span class="blogangular">Blog Angular</span>
+    <nav>
+      <button mat-flat-button color="primary" [routerLink]="['']">
+        Home
+      </button>
+      <button mat-flat-button color="primary" routerLink="/blogs">
+        Blog
+      </button>
+    </nav>
+  </div>
+  <div class="button-group" *ngIf="checkAuth(), else logOut">
+    <button mat-raised-button class="button-auth" (click)="openLoginForm()">
+      Login
+    </button>
+    <button mat-raised-button class="button-auth" (click)="openRegisterForm()">
+      Register
+    </button>
+  </div>
+  <ng-template #logOut>
+    <div>
+      
     </div>
-    <div class="button-group" *ngIf="checkAuth(), else logOut">
-      <button mat-raised-button class="button-auth" (click)="openLoginForm()">
-        Login
-      </button>
-      <button mat-raised-button class="button-auth" (click)="openRegisterForm()">
-        Register
-      </button>
-    </div>
-    <ng-template #logOut>
-      <button mat-raised-button class="button-auth" (click)="onLogOut()">
-        LogOut
-      </button>
-    </ng-template>
-  </mat-toolbar>
+    <button mat-raised-button class="button-auth" (click)="onLogOut()">
+      LogOut
+    </button>
+  </ng-template>
+</mat-toolbar>

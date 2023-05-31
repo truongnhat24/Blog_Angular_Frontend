@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class HeaderComponent {
   title = 'blogAngular';
+  user!: any;
 
   constructor(
     private _dialog: MatDialog,

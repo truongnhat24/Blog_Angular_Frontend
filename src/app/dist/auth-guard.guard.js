@@ -17,7 +17,6 @@ var AuthGuardGuard = /** @class */ (function () {
     }
     AuthGuardGuard.prototype.canActivate = function (route, state) {
         if (!this.auth.isAuthenticated()) {
-            console.log("ccc");
             this._dialog.open(login_component_1.LoginComponent);
             return false;
         }

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import jwt_decode from "jwt-decode";
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CoreService } from 'src/app/core/core.service';
-
 @Component({
   selector: 'app-reply',
   templateUrl: './reply.component.html',

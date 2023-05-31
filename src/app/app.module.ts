@@ -35,7 +35,8 @@ import { RouterModule } from '@angular/router';
 import { NgxEditorModule } from 'ngx-editor';
 import { CommentsComponent } from './blogs/comments/comments.component';
 import { ReplyComponent } from './blogs/comments/reply/reply.component';
-// import { CommentsModule } from './blogs/comments/comments.module';
+import { EditComponent } from './blogs/edit/edit.component';
+import { UserComponent } from './user/user.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +49,9 @@ import { ReplyComponent } from './blogs/comments/reply/reply.component';
     ViewComponent,
     DeleteComponent,
     CommentsComponent,
-    ReplyComponent
+    ReplyComponent,
+    EditComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -72,8 +75,6 @@ import { ReplyComponent } from './blogs/comments/reply/reply.component';
     MatSnackBarModule,
     FormsModule,
     NgxEditorModule,
-    // CommentsModule,
-    //RouterModule
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },

@@ -17,6 +17,7 @@ var add_component_1 = require("./blogs/add/add.component");
 var auth_guard_guard_1 = require("./auth-guard.guard");
 var view_component_1 = require("./blogs/view/view.component");
 var delete_component_1 = require("./blogs/delete/delete.component");
+var edit_component_1 = require("./blogs/edit/edit.component");
 var routes = [
     { path: '', component: home_component_1.HomeComponent },
     { path: 'login', component: login_component_1.LoginComponent },
@@ -27,7 +28,7 @@ var routes = [
             { path: '', component: blogs_component_1.BlogsComponent },
             { path: 'add', component: add_component_1.AddComponent },
             { path: 'view/:id', component: view_component_1.ViewComponent },
-            //{ path: 'edit/:id', component: EditComponent },
+            { path: 'edit/:id', component: edit_component_1.EditComponent },
             { path: 'delete/:id', component: delete_component_1.DeleteComponent }
         ]
     }

@@ -17,8 +17,8 @@ export class HomeComponent {
 
   ngOnInit(): void {
     this._homeService.homeBlog().subscribe((data:any) => {
-      console.log(data.data);
       this.data = data.data[0];
+      console.log(data);
     });
   }
 }

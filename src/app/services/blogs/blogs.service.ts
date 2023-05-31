@@ -23,7 +23,7 @@ export class BlogsService {
   }
 
   updateBlog(id: number, data: any): Observable<any> {
-    return this._http.put(this.APIurl + `/posts/${id}`, data)
+    return this._http.patch(this.APIurl + `/posts/${id}`, data)
   }
 
   getBlogsList(id:number): Observable<any> {

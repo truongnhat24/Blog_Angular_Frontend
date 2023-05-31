@@ -6,35 +6,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.ViewComponent = void 0;
+exports.HomeComponent = void 0;
 var core_1 = require("@angular/core");
-var ViewComponent = /** @class */ (function () {
-    function ViewComponent(_blogsService, _router, _route) {
-        this._blogsService = _blogsService;
+var HomeComponent = /** @class */ (function () {
+    function HomeComponent(_homeService, _router) {
+        this._homeService = _homeService;
         this._router = _router;
-        this._route = _route;
         this.API = 'http://127.0.0.1:8000/';
-        this.blogId = 0;
     }
-    ViewComponent.prototype.ngOnInit = function () {
-        this.getData();
-    };
-    ViewComponent.prototype.getData = function () {
+    HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._route.params.subscribe(function (params) {
-            _this.blogId = params['id'];
-        });
-        this._blogsService.viewBlog(this.blogId).subscribe(function (data) {
+        this._homeService.homeBlog().subscribe(function (data) {
             _this.data = data.data[0];
+            console.log(data);
         });
     };
-    ViewComponent = __decorate([
+    HomeComponent = __decorate([
         core_1.Component({
-            selector: 'app-view',
-            templateUrl: './view.component.html',
-            styleUrls: ['./view.component.scss']
+            selector: 'app-home',
+            templateUrl: './home.component.html',
+            styleUrls: ['./home.component.scss']
         })
-    ], ViewComponent);
-    return ViewComponent;
+    ], HomeComponent);
+    return HomeComponent;
 }());
-exports.ViewComponent = ViewComponent;
+exports.HomeComponent = HomeComponent;

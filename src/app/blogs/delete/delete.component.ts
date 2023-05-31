@@ -23,7 +23,6 @@ export class DeleteComponent implements OnInit {
     
   ngOnInit(): void {
     this.blogId = this.data.blogId
-    console.log(this.blogId);
   }
 
   deleteBlog():any {

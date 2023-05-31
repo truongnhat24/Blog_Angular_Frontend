@@ -6,30 +6,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.CommentsService = void 0;
+exports.LikeService = void 0;
 var core_1 = require("@angular/core");
-var CommentsService = /** @class */ (function () {
-    function CommentsService(_http) {
+var LikeService = /** @class */ (function () {
+    function LikeService(_http) {
         this._http = _http;
         this.APIurl = 'http://127.0.0.1:8000/api';
     }
-    CommentsService.prototype.addComment = function (data) {
-        return this._http.post(this.APIurl + '/comments', data);
+    LikeService.prototype.addLike = function (id, type) {
+        return this._http.post(this.APIurl + ("/likes/" + id + "/" + type), id);
     };
-    CommentsService.prototype.updateComment = function (id, data) {
-        return this._http.patch(this.APIurl + ("/comments/" + id), data);
-    };
-    CommentsService.prototype.getCommentsList = function (id) {
-        return this._http.get(this.APIurl + ("/comments/index/" + id));
-    };
-    CommentsService.prototype.deleteComment = function (id) {
-        return this._http["delete"](this.APIurl + ("/comments/" + id));
-    };
-    CommentsService = __decorate([
+    LikeService = __decorate([
         core_1.Injectable({
             providedIn: 'root'
         })
-    ], CommentsService);
-    return CommentsService;
+    ], LikeService);
+    return LikeService;
 }());
-exports.CommentsService = CommentsService;
+exports.LikeService = LikeService;

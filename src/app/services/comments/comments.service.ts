@@ -17,7 +17,7 @@ export class CommentsService {
   }
 
   updateComment(id: number, data: any): Observable<any> {
-    return this._http.put(this.APIurl + `/comments/${id}`, data)
+    return this._http.patch(this.APIurl + `/comments/${id}`, data)
   }
 
   getCommentsList(id:number): Observable<any> {

@@ -27,7 +27,7 @@ export class ViewComponent implements OnInit{
       this.blogId = params['id'];
     });
     this._blogsService.viewBlog(this.blogId).subscribe((data:any) => {
-      this.data = data.data[1];
+      this.data = data.data[0];
     });
   }
 }

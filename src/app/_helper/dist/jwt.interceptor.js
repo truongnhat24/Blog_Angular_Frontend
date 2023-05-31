@@ -15,7 +15,6 @@ var JwtInterceptor = /** @class */ (function () {
     JwtInterceptor.prototype.intercept = function (request, next) {
         // add auth header with jwt if user is logged in and request is to the api url
         var isAuthenticated = this.authService.isAuthenticated();
-        console.log(isAuthenticated);
         if (isAuthenticated) {
             var accessToken = localStorage.getItem('access_token');
             request = request.clone({

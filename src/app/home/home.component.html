@@ -2,11 +2,23 @@
     <div class="row my-5">
         <a *ngFor="let post of data" class="col-4 px-3 py-4 text-decoration-none post-link" [routerLink]="'blogs/view/' + post.id">
             <div class="d-flex flex-column align-items-between justify-content-between border mx-2 h-100 rounded-xl shadow-sm">
-                <div class="d-flex justify-content-center mt-3">
-                    <img src="{{API+post.image}}" alt="" class="w-75">
+                <div>
+                    <div class="d-flex justify-content-center mt-3">
+                        <img src="{{API+post.image}}" alt="" class="w-75">
+                    </div>
                 </div>
-                <div class="text-center px-3">
-                    <h2>{{ post.title }}</h2>
+                <div class="border-t-2 pt-2 mt-4">
+                    <div class="text-center px-3">
+                        <h2>{{ post.title }}</h2>
+                    </div>
+                    <div class="flex gap-2 justify-end mr-6 mb-2">
+                        <div>
+                            <mat-icon color="warn">question_answer</mat-icon>
+                        </div>
+                        <div>
+                            <span>{{ post.comment_count }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </a>

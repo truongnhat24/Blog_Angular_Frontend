@@ -43,7 +43,7 @@ var delete_component_1 = require("./blogs/delete/delete.component");
 var ngx_editor_1 = require("ngx-editor");
 var comments_component_1 = require("./blogs/comments/comments.component");
 var reply_component_1 = require("./blogs/comments/reply/reply.component");
-// import { CommentsModule } from './blogs/comments/comments.module';
+var edit_component_1 = require("./blogs/edit/edit.component");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -60,7 +60,8 @@ var AppModule = /** @class */ (function () {
                 view_component_1.ViewComponent,
                 delete_component_1.DeleteComponent,
                 comments_component_1.CommentsComponent,
-                reply_component_1.ReplyComponent
+                reply_component_1.ReplyComponent,
+                edit_component_1.EditComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule,

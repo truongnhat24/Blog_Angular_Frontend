@@ -22,7 +22,7 @@ var BlogsService = /** @class */ (function () {
         return this._http.post(this.APIurl + '/posts', data);
     };
     BlogsService.prototype.updateBlog = function (id, data) {
-        return this._http.put(this.APIurl + ("/posts/" + id), data);
+        return this._http.patch(this.APIurl + ("/posts/" + id), data);
     };
     BlogsService.prototype.getBlogsList = function (id) {
         return this._http.get(this.APIurl + ("/posts/index/" + id));
