@@ -29,6 +29,7 @@ export class RegisterComponent implements OnInit {
       name: this._fb.control('', Validators.compose([Validators.required, Validators.minLength(3)])),
       email: this._fb.control('', Validators.compose([Validators.required, Validators.email])),
       password: this._fb.control('', Validators.compose([Validators.required, Validators.minLength(4)])),
+      phone: this._fb.control('', Validators.minLength(10)),
       role: this._fb.control('0'),
       status: this._fb.control('1'),
     })
@@ -43,6 +44,7 @@ export class RegisterComponent implements OnInit {
 
   onResFormSubmit() {
     if(this.resForm.valid) {
+      console.log(this.resForm.value);
       this._userService.addUser(this.resForm.value).subscribe({
       next: (val: any) => {
         this._coreService.openSnackBar("Register successfully");

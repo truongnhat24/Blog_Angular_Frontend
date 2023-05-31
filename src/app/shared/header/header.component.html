@@ -10,7 +10,7 @@
       </button>
     </nav>
   </div>
-  <div class="button-group" *ngIf="checkAuth(), else logOut">
+  <div class="button-group" *ngIf="!checkAuth(), else logOut">
     <button mat-raised-button class="button-auth" (click)="openLoginForm()">
       Login
     </button>
@@ -19,11 +19,23 @@
     </button>
   </div>
   <ng-template #logOut>
-    <div>
-      
+    <div class="flex gap-4">
+      <div class="flex gap-2">
+        <div *ngIf="user?.image != 'NULL'; else nullImage" class="">
+          <img [src]="API+user?.image" alt="" class="rounded-full h-[40px] w-[40px]">
+        </div>              
+        <ng-template #nullImage>
+            <div class="">
+                <img src="../../../assets/img/man-156584__340.webp" alt="" class="rounded-full h-[40px] w-[40px] bg-white">
+            </div>
+        </ng-template>
+        <div>
+          <span>{{ user?.name }}</span>
+        </div>
+      </div>
+      <button mat-raised-button class="button-auth" (click)="onLogOut()">
+        LogOut
+      </button>
     </div>
-    <button mat-raised-button class="button-auth" (click)="onLogOut()">
-      LogOut
-    </button>
   </ng-template>
 </mat-toolbar>
