@@ -13,8 +13,8 @@ var LikeService = /** @class */ (function () {
         this._http = _http;
         this.APIurl = 'http://127.0.0.1:8000/api';
     }
-    LikeService.prototype.addLike = function (id, type) {
-        return this._http.post(this.APIurl + ("/likes/" + id + "/" + type), id);
+    LikeService.prototype.addLike = function (data) {
+        return this._http.post(this.APIurl + '/likes', data);
     };
     LikeService = __decorate([
         core_1.Injectable({

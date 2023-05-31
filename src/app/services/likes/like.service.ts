@@ -13,7 +13,7 @@ export class LikeService {
 
   private APIurl = 'http://127.0.0.1:8000/api'
 
-  addLike(id:number, type:string): Observable<any> {
-    return this._http.post(this.APIurl + `/likes/${id}/${type}`, id);
+  addLike(data:any): Observable<any> {
+    return this._http.post(this.APIurl + '/likes', data);
   }
 }

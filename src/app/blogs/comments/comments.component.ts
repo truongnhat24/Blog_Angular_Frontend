@@ -58,6 +58,7 @@ export class CommentsComponent implements OnInit{
     });
     this._commentsService.getCommentsList(this.blogId).subscribe((data:any) => {
       this.datas = data.data[1];
+      console.log(this.datas);
       this.datas.map((data:any) => {
         data.likeOn = false;
       })
@@ -164,7 +165,11 @@ export class CommentsComponent implements OnInit{
 
   likeSubmit(cmtId:number, type:string, value:any){
     var like = Number(value.children[1].innerHTML)
-    this._likeService.addLike(cmtId, type).subscribe({
+    var likeForm = {
+      type_id: cmtId,
+      type: type
+    };
+    this._likeService.addLike(likeForm).subscribe({
       next: () => {
         if(value.firstChild.innerHTML == 'favorite') {
           value.firstChild.innerHTML = "favorite_border";

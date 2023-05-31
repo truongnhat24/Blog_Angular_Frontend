@@ -10,5 +10,17 @@
             </div>
         </div>
     </div>
+    <div class="row ">
+        <div class="flex">
+            <span class="font-bold text-[16px] text-red-400">Like this? Give a heart</span>
+        </div>
+        <div class="flex" #like_element>
+            <mat-icon class="text-red-600" (click)="likeSubmit(data?.id, 'blog', like_element)">{{ (data?.checkLikeBlog == true) ? "favorite" : "favorite_border" }}</mat-icon>
+            <span class="ml-2">{{ data?.like_count }}</span>
+            <span class="ml-[3px]">
+                Like
+            </span>
+        </div>
+    </div>
 </section>
 <app-comments></app-comments>

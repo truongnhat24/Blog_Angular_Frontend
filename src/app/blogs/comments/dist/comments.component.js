@@ -48,6 +48,7 @@ var CommentsComponent = /** @class */ (function () {
         });
         this._commentsService.getCommentsList(this.blogId).subscribe(function (data) {
             _this.datas = data.data[1];
+            console.log(_this.datas);
             _this.datas.map(function (data) {
                 data.likeOn = false;
             });
@@ -151,7 +152,11 @@ var CommentsComponent = /** @class */ (function () {
     };
     CommentsComponent.prototype.likeSubmit = function (cmtId, type, value) {
         var like = Number(value.children[1].innerHTML);
-        this._likeService.addLike(cmtId, type).subscribe({
+        var likeForm = {
+            type_id: cmtId,
+            type: type
+        };
+        this._likeService.addLike(likeForm).subscribe({
             next: function () {
                 if (value.firstChild.innerHTML == 'favorite') {
                     value.firstChild.innerHTML = "favorite_border";
